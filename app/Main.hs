@@ -1,6 +1,6 @@
 module Main where
 
-import NextLargest (digits, nextLargest, nextLargestRef)
+import NextLargest (digits, nextLargest, nextLargestRef, nextLargestRef')
 
 import Test.QuickCheck
 import Criterion.Main
@@ -26,9 +26,10 @@ inputValues = [ (12, 21)
               , (98765432109876543210, 98765432110023456789)
              ]
 
-perfMain = defaultMain  [
-    bgroup "ref"  ( benchMap nextLargestRef $ filter (\x -> length x < 9) inputValues )
-  , bgroup "fast" ( benchMap nextLargest                                  inputValues )
+perfMain = defaultMain
+  [ bgroup "ref"  ( benchMap nextLargestRef  $ filter (\x -> length (digits $ fst x) < 9) inputValues )
+  , bgroup "ref'" ( benchMap nextLargestRef' $ filter (\x -> length (digits $ fst x) < 9) inputValues )
+  , bgroup "fast" ( benchMap nextLargest                                                  inputValues )
   ]
 
 main :: IO ()

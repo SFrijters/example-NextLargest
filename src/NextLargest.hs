@@ -1,10 +1,13 @@
-module NextLargest ( digits, nextLargest, nextLargestRef ) where
+module NextLargest ( digits, nextLargest, nextLargestRef, nextLargestRef' ) where
 
 import Data.List (span, sort, permutations)
 
 -- 'Reference'  implementation: brute force
 nextLargestRef :: Integer -> Integer
 nextLargestRef x = head $ filter (>x) $ map read $ sort $ permutations $ show x
+
+nextLargestRef' :: Integer -> Integer
+nextLargestRef' x = head $ dropWhile (<=x) $ map read $ sort $ permutations $ show x
 
 -- Wrap the packing and unpacking of the Integer to lists of digits
 nextLargest :: Integer -> Maybe Integer
