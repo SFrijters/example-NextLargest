@@ -2,6 +2,11 @@
 
 Playing with https://www.reddit.com/r/dailyprogrammer/comments/67q3s6/20170426_challenge_312_intermediate_next_largest/
 
+```
+> stack install
+> nextLargest --output compare.html
+```
+
 ## [2017-04-26] Challenge #312 [Intermediate] Next largest number
 submitted by jnazario2
 
@@ -37,6 +42,7 @@ Given 292761 the next largest integer would be 296127.
 1324
 235467
 90001
-Credit
+
+### Credit
 
 This challenge was suggested by user /u/caa82437, many thanks. If you have a challenge idea, please share it in /r/dailyprogrammer_ideas and there's a good chance we'll use it.

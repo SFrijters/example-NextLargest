@@ -8,16 +8,31 @@ import Criterion.Main
 prop_ref :: NonNegative Integer -> Bool
 prop_ref (NonNegative x) = nextLargest x == Just (nextLargestRef x) || nextLargest x == Nothing
 
-benchMap f = map (\x -> bench (show $ length $ digits x ) $ whnf f x )
+resultsMap :: (Integer -> Maybe Integer) -> [ (Integer, Integer) ] -> [ Bool ]
+resultsMap f = map (\x -> f (fst x) == Just (snd x))
 
-inputValues = [ 12, 1234, 19000, 235467, 1648449, 16580449, 165800449, 1658000449, 98765432109876543210 ]
+benchMap f = map (\x -> bench (show $ length $ digits (fst x) ) $ whnf f (fst x))
 
-mainTest = defaultMain  [
-    bgroup "ref"  ( benchMap nextLargestRef $ take 6 inputValues )
-  , bgroup "fast" ( benchMap nextLargest    inputValues )
+inputValues = [ (12, 21)
+              , (1234, 1243)
+              , (1243, 1324)
+              , (19000, 90001)
+              , (234765, 235467)
+              , (292761, 296127)
+              , (1654984, 1658449)
+              , (16549840, 16580449)
+              , (165498400, 165800449)
+              , (1654984000, 1658000449)
+              , (98765432109876543210, 98765432110023456789)
+             ]
+
+perfMain = defaultMain  [
+    bgroup "ref"  ( benchMap nextLargestRef $ filter (\x -> length x < 9) inputValues )
+  , bgroup "fast" ( benchMap nextLargest                                  inputValues )
   ]
 
 main :: IO ()
 main = do
+  putStrLn $ show $ all (==True) $ resultsMap nextLargest inputValues
   quickCheck prop_ref
-  mainTest
+  perfMain
